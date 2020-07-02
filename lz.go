@@ -102,22 +102,24 @@ func decompress(input string, keyMap map[byte]int) (string, error) {
 	if !ok {
 		return "", errors.New("Illegal character encountered.")
 	}
-	data := dataStruct{input, position, 32, 1, []string{"0", "1", "2"}, 5, 2}
-
-	result, isEnd, err := getString("", &data, keyMap)
+	data := &dataStruct{input, position, 32, 1, []string{"0", "1", "2"}, 5, 2}
+	defer func(){
+		data = nil
+	}()
+	result, isEnd, err := getString("", data, keyMap)
 	if err != nil || isEnd {
 		return result, err
 	}
 	last := result
 	data.numBits++
 	for {
-		str, isEnd, err := getString(last, &data, keyMap)
+		str, isEnd, err := getString(last, data, keyMap)
 		if err != nil || isEnd {
 			return result, err
 		}
 
 		result = result + str
-		appendValue(&data, concatWithFirstRune(last, str))
+		appendValue(data, concatWithFirstRune(last, str))
 		last = str
 	}
 
