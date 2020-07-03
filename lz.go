@@ -2,6 +2,7 @@ package lz
 
 import (
 	"errors"
+	"fmt"
 	"math"
 	"unicode/utf8"
 )
@@ -95,6 +96,7 @@ func concatWithFirstRune(str string, getFirstRune string) string {
 }
 
 func decompress(input string, keyMap map[byte]int) (string, error) {
+ 	data :=  &dataStruct{}
 	if input == "" {
 		return "", nil
 	}
@@ -102,8 +104,9 @@ func decompress(input string, keyMap map[byte]int) (string, error) {
 	if !ok {
 		return "", errors.New("Illegal character encountered.")
 	}
-	data := &dataStruct{input, position, 32, 1, []string{"0", "1", "2"}, 5, 2}
+	data = &dataStruct{input, position, 32, 1, []string{"0", "1", "2"}, 5, 2}
 	defer func(){
+		fmt.Println("lz-garbag collection")
 		data = nil
 	}()
 	result, isEnd, err := getString("", data, keyMap)
