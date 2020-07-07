@@ -20,6 +20,8 @@ type dataStruct struct {
 	numBits    int
 }
 
+var data =  &dataStruct{}
+
 func getBaseValue(char byte, keyMap map[byte]int) (result int, ok bool) {
 	result, ok = keyMap[char]
 	return
@@ -96,7 +98,7 @@ func concatWithFirstRune(str string, getFirstRune string) string {
 }
 
 func decompress(input string, keyMap map[byte]int) (string, error) {
- 	data :=  &dataStruct{}
+
 	if input == "" {
 		return "", nil
 	}
