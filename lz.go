@@ -2,7 +2,6 @@ package lz
 
 import (
 	"errors"
-	"fmt"
 	"math"
 	"unicode/utf8"
 )
@@ -109,7 +108,6 @@ func decompress(input string, keyMap map[byte]int) (string, error) {
 	data = &dataStruct{input, position, 32, 1, []string{"0", "1", "2"}, 5, 2}
 	result, isEnd, err := getString("", data, keyMap)
 	defer func(){
-		fmt.Println("lz-garbag collection")
 		result = ""
 		data = nil
 	}()
